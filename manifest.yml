@@ -1,0 +1,169 @@
+modules:
+  jira:projectPage:
+    - key: course-team-evidence-page
+      resource: course-cockpit-resource
+      resolver:
+        function: ui-resolver
+      render: native
+      title: Course Evidence & Rubric Cockpit
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+
+  confluence:globalPage:
+    - key: course-confluence-page
+      resource: course-cockpit-resource
+      resolver:
+        function: ui-resolver
+      render: native
+      title: Course Evidence & Rubric Cockpit
+      route: course-evidence-cockpit
+
+  scheduledTrigger:
+    - key: weekly-course-snapshot-trigger
+      function: snapshot-handler
+      interval: week
+
+  llm:
+    - key: llm-course-app
+      model:
+        - claude
+
+  rovo:skill:
+    - key: course-evidence-rubric-skill
+      source:
+        dir: skills/course-evidence-rubric
+      dependencies:
+        tools:
+          - get-team-evidence
+          - get-student-evidence
+          - draft-rubric-feedback
+          - post-approved-feedback
+
+  rovo:agent:
+    - key: teaching-assistant-agent
+      name: "SE Course Teaching Assistant"
+      description: Aggregates cross-product student contribution evidence from the
+        Atlassian Teamwork Graph (Jira issues, comments, PRs, Confluence pages),
+        flags free-riding or last-minute sprints early, and drafts rubric
+        feedback for lecturer approval.
+      prompt: |
+        You are SE Course Teaching Assistant, an academic supervision partner for university software-engineering lecturers.
+        Follow three strict pedagogical design rules at all times:
+        1. Students can inspect their own evidence transparently.
+        2. Never assign a numerical grade autonomously—present evidence and rubric-aligned observations so the lecturer makes all grading decisions.
+        3. Always remind the lecturer that activity counts (commits, tickets, comments) do not equal engineering quality, and highlight cross-product context (e.g., a student who wrote architecture specs in Confluence vs. a student who merged PRs).
+      conversationStarters:
+        - Which student teams have early-warning imbalance or inactivity this
+          week?
+        - Show Teamwork Graph contribution evidence for Team Garuda
+        - Draft milestone rubric feedback for Team Mahakam
+      skills:
+        - course-evidence-rubric-skill
+      actions:
+        - get-team-evidence
+        - get-student-evidence
+        - draft-rubric-feedback
+        - post-approved-feedback
+
+  action:
+    - key: get-team-evidence
+      name: Get Teamwork Graph evidence for student team
+      function: act-get-team-evidence
+      actionVerb: GET
+      description: |
+        Retrieve cross-product Teamwork Graph contribution evidence (Jira work items, review comments, linked pull requests, Confluence architecture pages) and early-warning flags for a student project team.
+      inputs:
+        teamId:
+          title: Team ID
+          type: string
+          required: true
+          description: "Student team identifier (for example, TEAM-GARUDA or TEAM-MAHAKAM)"
+
+    - key: get-student-evidence
+      name: Get transparent individual student evidence
+      function: act-student-ev-fn
+      actionVerb: GET
+      description: |
+        Retrieve a single student's cross-product Teamwork Graph contributions across Jira, Bitbucket/GitHub PRs, and Confluence deliverables, including weekly cadence.
+      inputs:
+        studentId:
+          title: Student ID
+          type: string
+          required: true
+          description: "Student identifier (for example, STU-01 through STU-08)"
+
+    - key: draft-rubric-feedback
+      name: Draft milestone rubric feedback for lecturer review
+      function: act-draft-fb-fn
+      actionVerb: GET
+      description: |
+        Draft constructive, rubric-aligned feedback on a team's Jira + Confluence milestone using Forge LLMs and Teamwork Graph evidence, without assigning grades or posting publicly until approved.
+      inputs:
+        teamId:
+          title: Team ID
+          type: string
+          required: true
+          description: "Student team identifier"
+        milestoneName:
+          title: Milestone Name
+          type: string
+          required: false
+          description: "Course milestone (for example, Sprint 2 Architecture & API
+            Prototype)"
+
+    - key: post-approved-feedback
+      name: Post lecturer-approved rubric feedback
+      function: act-post-fb-fn
+      actionVerb: UPDATE
+      description: |
+        Record and publish lecturer-approved rubric feedback onto the team's milestone record after explicit human review.
+      inputs:
+        teamId:
+          title: Team ID
+          type: string
+          required: true
+          description: "Student team identifier"
+        approvedFeedbackMarkdown:
+          title: Approved Feedback Markdown
+          type: string
+          required: true
+          description: "The lecturer-reviewed feedback text to publish"
+
+  function:
+    - key: ui-resolver
+      handler: index.uiResolver
+    - key: snapshot-handler
+      handler: index.snapshotHandler
+      timeoutSeconds: 120
+    - key: act-get-team-evidence
+      handler: index.actGetTeamEvidence
+    - key: act-student-ev-fn
+      handler: index.actGetStudentEvidence
+    - key: act-draft-fb-fn
+      handler: index.actDraftRubricFeedback
+    - key: act-post-fb-fn
+      handler: index.actPostApprovedFeedback
+
+resources:
+  - key: course-cockpit-resource
+    path: src/frontend/course-cockpit.jsx
+
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+    - storage:app
+    - read:graph:user:atlassian
+    - read:graph:team:atlassian
+    - read:graph:project:jira
+    - read:graph:issue:jira
+    - read:graph:issue-comment:jira
+    - read:graph:space:confluence
+    - read:graph:page:confluence
+    - read:graph:pull-request:external
+
+app:
+  id: ari:cloud:ecosystem::app/50f92c1f-44d9-405c-ac90-148887e3ac53
+  runtime:
+    name: nodejs24.x
+    memoryMB: 512

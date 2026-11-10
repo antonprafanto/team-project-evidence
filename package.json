@@ -1,0 +1,20 @@
+{
+  "name": "team-project-evidence-for-jira-confluence",
+  "version": "1.0.0",
+  "description": "Teamwork Graph contribution evidence, early-warning snapshots, and lecturer-approved rubric feedback for software-engineering courses on Jira & Confluence.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint:manifest": "node test/validate-manifest.js"
+  },
+  "dependencies": {
+    "@forge/api": "^8.5.0",
+    "@forge/bridge": "^7.3.0",
+    "@forge/kvs": "^2.1.2",
+    "@forge/llm": "^1.0.10",
+    "@forge/react": "^12.5.0",
+    "@forge/resolver": "^2.0.2",
+    "react": "^18.3.1"
+  }
+}
