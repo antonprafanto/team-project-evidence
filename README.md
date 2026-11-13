@@ -1,5 +1,7 @@
 # Team Project Evidence & Rubric Assistant for Jira & Confluence
 
+![Team Project Evidence Cover](docs/images/cover-thumbnail.png)
+
 **Cross-product Teamwork Graph contribution evidence, early-warning snapshots, and lecturer-approved rubric feedback for university software-engineering courses.**
 
 Built for **Atlassian Codegeist 2026**:
@@ -15,6 +17,18 @@ Built for **Atlassian Codegeist 2026**:
 1. **Student Transparency (`get-student-evidence`):** Students see the exact same Teamwork Graph contribution summary as lecturers.
 2. **Activity != Quality (No Auto-Grading):** The app never assigns numerical grades and explicitly credits non-code engineering contributions such as Confluence architecture specifications and peer PR reviews.
 3. **Lecturer Approval Gate (`post-approved-feedback`):** Rubric feedback is drafted via `draft-rubric-feedback` and published only after explicit lecturer review and click-to-approve.
+
+---
+
+## Architecture (Cross-Product Teamwork Graph)
+
+![Team Project Evidence Teamwork Graph Architecture](docs/images/architecture.png)
+
+## Live Atlassian Screenshots
+
+| Confluence Global Cockpit (`IF-304` Multi-Team Warnings) | Rovo Chat (`SE Course Teaching Assistant`) |
+| --- | --- |
+| ![Confluence Course Evidence Cockpit](docs/images/live-confluence-cockpit.png) | ![Rovo SE Course Teaching Assistant](docs/images/live-rovo-chat.png) |
 
 ---
 
