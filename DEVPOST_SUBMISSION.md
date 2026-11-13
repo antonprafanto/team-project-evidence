@@ -82,9 +82,10 @@ As a university lecturer supervising multi-team Software Engineering capstone co
 3. Inspect the course header (`TWG Mode`), per-team **Early Warning(s)** banners, and per-member cross-product contribution breakdown (`Jira Done`, `PRs Merged`, `PR Reviews`, `Confluence Edits`).
 4. Click **Student Self-Inspection View** on any team member to verify the pedagogical transparency panel (`Weekly Active Cadence`), then click **Draft Milestone Rubric Feedback (Forge LLM)** and review the human-in-the-loop approval flow before publishing.
 
-### Project Links & Distribution Checklist (`antonprafanto`)
-- **GitHub Repository URL *(push pending)*:** `https://github.com/antonprafanto/team-project-evidence`
-- **Privacy Policy URL *(live once repo is pushed)*:** `https://github.com/antonprafanto/team-project-evidence/blob/main/PRIVACY.md`
+### Project Links & Distribution (`antonprafanto`)
+- **GitHub Repository URL:** `https://github.com/antonprafanto/team-project-evidence`
+- **Privacy Policy URL:** `https://github.com/antonprafanto/team-project-evidence/blob/main/PRIVACY.md`
 - **Support Contact Email:** `anton.prafanto@gmail.com`
 - **Atlassian Forge App ID:** `50f92c1f-44d9-405c-ac90-148887e3ac53`
-- **Installation Link:** Push `PRIVACY.md` to GitHub, switch Developer Console Distribution to **Sharing with anyone**, and copy the public install link here before final Devpost submission.
+- **Public Installation Link (`Sharing with anyone`, Jira + Confluence):**
+  `https://developer.atlassian.com/console/install/50f92c1f-44d9-405c-ac90-148887e3ac53?signature=AYABeE7kvOKsA8Ig2ygIsmIiuKYAAAADAAdhd3Mta21zAEthcm46YXdzOmttczp1cy13ZXN0LTI6NzA5NTg3ODM1MjQzOmtleS83MDVlZDY3MC1mNTdjLTQxYjUtOWY5Yi1lM2YyZGNjMTQ2ZTcAuAECAQB4CxqLTo9l4lqXuFjNim1xJM%2Bp%2F3TVP9xHS2BrU5DRRucBdBiMK58QGUJaZTwJkA9ImgAAAH4wfAYJKoZIhvcNAQcGoG8wbQIBADBoBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDM7XLDZRGP5XjKaAZgIBEIA7oyE1tTVlGHMTr7DDhQ5MkzCgD%2BqN%2Br7tiNx1B77n4tVPlvjN6KFjERxsEdUlYAKpNykoUjdQg%2FUHfhQAB2F3cy1rbXMAS2Fybjphd3M6a21zOmV1LXdlc3QtMTo3MDk1ODc4MzUyNDM6a2V5LzQ2MzBjZTZiLTAwYzMtNGRlMi04NzdiLTYyN2UyMDYwZTVjYwC4AQICAHi9bVMAkme4qVQX1fQHo6ePw3H40A7cGfz7yrmSfBWMXgE4IYKx0VXbECvbBF1jlK6NAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQME0%2BELeO24lUWaR%2FEAgEQgDu9fcwVl46skfrzn%2BQ5my1LIdxdCAUh5uAvbP37YGvHudrbCyYbi8ArKuOoh9Ai1CiogLduW6sY0pYbfQAHYXdzLWttcwBLYXJuOmF3czprbXM6dXMtZWFzdC0xOjcwOTU4NzgzNTI0MzprZXkvNmMxMjBiYTAtNGNkNS00OTg1LWI4MmUtNDBhMDQ5NTJjYzU3ALgBAgIAeDYASx0XCjkny4iLV6vz%2BKtEGSGT6kdt0QRpkn6D%2FlVEAYnAPNBWcSqT1LbrQyqiBl0AAAB%2BMHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwa292uTvVoW2rA84wCARCAO%2BcsnyNDjXwYU6A9jYXJ%2FsPlRRIE94DaPcJBcHQbWSK5fhyLRy49Ke%2Fe8l%2BVRVBYreEgXhFcaXfSLd4EAgAAAAAMAAAQAAAAAAAAAAAAAAAAAEblX2HXpB0MxIxpuY%2FZa67%2F%2F%2F%2F%2FAAAAAQAAAAAAAAAAAAAAAQAAADI5nw3%2BJ5Cg0I%2BAxQnsWr%2Be7MAA4NJgBBcNxv7W6Zo7MeRrA0Hh%2FVP0Sp%2FTSG328hTOvqtl2A8rkAeqJuTcXKvNeTM%3D&product=jira&product=confluence`
