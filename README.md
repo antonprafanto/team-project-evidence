@@ -62,7 +62,7 @@ forge install --upgrade
 
 ### 3. Testing Instructions for Judges
 1. **Jira Project View:** Open any Jira project (e.g. `https://one-atlas-rrth.atlassian.net/jira/software/c/projects/PLAT/boards`) and click **Course Evidence & Rubric Cockpit** in the project sidebar.
-2. **Confluence Global View:** Open Confluence (`https://one-atlas-rrth.atlassian.net/wiki/apps/50f92c1f-44d9-405c-ac90-148887e3ac53/d4fd7686-8f85-4716-ac77-94985fc928fa/course-evidence-cockpit`) to inspect the same cross-product cockpit inside Confluence.
-3. Click **Student Self-Inspection View** next to any student (e.g. `STU-02` Siti Rahma) to verify how non-code Confluence architecture specs and PR reviews are credited transparently.
+2. **Confluence Global View:** Open Confluence (`https://one-atlas-rrth.atlassian.net/wiki/apps/50f92c1f-44d9-405c-ac90-148887e3ac53/8cafbb72-aeeb-42be-b8b2-6f9fb4f851d1/course-evidence-cockpit`) to inspect the same cross-product cockpit inside Confluence.
+3. Click **Student Self-Inspection View** next to any student (e.g. `STU-02` Nadia Putri (Synthetic)) to verify how non-code Confluence architecture specs and PR reviews are credited transparently.
 4. Click **Draft Milestone Rubric Feedback (Forge LLM)** on **Team Garuda** or **Team Mahakam**, inspect the rubric-aligned draft, and click **Approve & Publish to Milestone Record**.
 5. Open **Rovo Chat** and select **SE Course Teaching Assistant** to ask: *"Which student teams have early-warning imbalance or inactivity this week?"*

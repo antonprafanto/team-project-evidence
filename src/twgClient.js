@@ -150,11 +150,12 @@ export async function checkLiveTeamworkGraph(twgApiOverride = null) {
         const res = await withTimeout(userClient.requestTeamworkGraph(TWG_CURATED_QUERIES.echo), 2000);
         const json = await res.json();
         if (json?.data?.echo) {
+          console.info("[team-project-evidence] TWG echo connected:", json.data.echo);
           return { twgConnected: true, echo: json.data.echo, mode: "teamwork-graph-live" };
         }
       }
-    } catch {
-      // Fallback to seeded course dataset when TWG is not populated on the test tenant
+    } catch (err) {
+      console.warn("[team-project-evidence] TWG echo failed:", err?.message || err);
     }
   }
 
@@ -314,10 +315,18 @@ export async function generateRubricFeedbackWithForgeLlm(
     try {
       let selectedModel = "claude-sonnet-5";
       if (typeof llmClient.list === "function") {
-        const listRes = await withTimeout(llmClient.list("claude"), 2000);
-        const active = (listRes?.models || []).find((m) => m.status === "active");
-        if (active?.model) {
-          selectedModel = active.model;
+        try {
+          const listRes = await withTimeout(llmClient.list(), 2500);
+          const activeModels = (listRes?.models || []).filter((m) => m.status === "active");
+          const preferred =
+            activeModels.find((m) => m.model?.includes("sonnet-5")) ||
+            activeModels.find((m) => m.model?.includes("sonnet-4-6")) ||
+            activeModels[0];
+          if (preferred?.model) {
+            selectedModel = preferred.model;
+          }
+        } catch (listErr) {
+          console.warn("[team-project-evidence] Forge LLM list() failed:", listErr?.message || listErr);
         }
       }
 
@@ -344,7 +353,7 @@ export async function generateRubricFeedbackWithForgeLlm(
             }
           ]
         }),
-        5500
+        15000
       );
 
       const content = response?.choices?.[0]?.message?.content;
@@ -356,13 +365,15 @@ export async function generateRubricFeedbackWithForgeLlm(
             : "";
 
       if (text && text.trim().length > 40) {
+        console.info("[team-project-evidence] Forge LLM draft succeeded:", selectedModel);
         return {
           draftMarkdown: text.trim(),
           engineUsed: `forge-llm:${selectedModel}`
         };
       }
-    } catch {
-      // Fallback to deterministic synthesis
+      console.warn("[team-project-evidence] Forge LLM returned empty/short response; falling back.");
+    } catch (err) {
+      console.warn("[team-project-evidence] Forge LLM draft failed:", err?.message || err);
     }
   }
 

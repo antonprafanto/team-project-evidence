@@ -43,11 +43,11 @@ As a university lecturer supervising multi-team Software Engineering capstone co
 
 - **0:00–0:35 — The Higher-Education Problem (Why Git Commits Alone Fail Students):**
   - Introduce the university Software Engineering capstone context (`IF-304`): 4-student teams working across Jira backlogs, GitHub/Bitbucket PRs, and Confluence architecture specifications.
-  - Show how traditional commit-only tracking unfairly penalizes students who lead system architecture in Confluence (`STU-02` Siti Rahma: 9 Confluence edits, 8 PR reviews, 2 PRs merged) while missing genuine mid-semester inactivity (`STU-04` Dimas Pratama: 14 days inactive) until final grading.
+  - Show how traditional commit-only tracking unfairly penalizes students who lead system architecture in Confluence (`STU-02` Nadia Putri (Synthetic): 11 Confluence edits, 9 PR reviews, 2 PRs merged, 34.2% evidence share) while missing genuine mid-semester inactivity (`STU-03` Dimas Wijaya (Synthetic): 13 days inactive, 1% evidence share) until final grading.
 - **0:35–1:30 — Course Evidence & Rubric Cockpit (Jira + Confluence + Teamwork Graph):**
   - Open **Course Evidence & Rubric Cockpit** in Jira (`PLAT`) and Confluence.
-  - Walk through **Team Garuda** (`2 Early Warnings`: `INACTIVE_MEMBER` + `LAST_MINUTE_BURST`) and **Team Mahakam** (`1 Early Warning`: `SINGLE_STUDENT_CARRY`).
-  - Click **Student Self-Inspection View** on `STU-02` (Siti Rahma) to demonstrate the **Pedagogical Transparency Guarantee**: students see the exact same cross-product evidence and weekly cadence as the lecturer.
+  - Walk through **Team Garuda** (`1 Early Warning`: `INACTIVE_MEMBER` on `STU-03` Dimas Wijaya) and **Team Mahakam** (`3 Early Warnings`: `SINGLE_STUDENT_CARRY` on `STU-05` Fajar Hidayat + `LAST_MINUTE_BURST` on `STU-05` & `STU-07` Bayu Kusuma).
+  - Click **Student Self-Inspection View** on `STU-02` (Nadia Putri (Synthetic)) to demonstrate the **Pedagogical Transparency Guarantee**: students see the exact same cross-product evidence and weekly cadence as the lecturer.
 - **1:30–2:25 — Lecturer-in-the-Loop Rubric Feedback & Rovo Teaching Assistant:**
   - Click **Draft Milestone Rubric Feedback (Forge LLM)** on **Team Garuda** (`@forge/llm` `claude-sonnet-5`), review the 4-criterion markdown draft (which explicitly states no numerical grade is assigned), and click **Approve & Publish to Milestone Record**.
   - Open **Rovo Chat (`SE Course Teaching Assistant`)** powered by `course-evidence-rubric` (`SKILL.md`) and ask: *"Which student teams have early-warning imbalance or inactivity this week?"*

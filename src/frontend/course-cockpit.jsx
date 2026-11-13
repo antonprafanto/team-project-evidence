@@ -9,6 +9,7 @@ import ForgeReconciler, {
   Heading,
   Inline,
   Lozenge,
+  ProgressBar,
   SectionMessage,
   Stack,
   Text
@@ -20,51 +21,110 @@ const CourseCockpitApp = () => {
   const [activeDraft, setActiveDraft] = useState(null);
   const [studentView, setStudentView] = useState(null);
   const [banner, setBanner] = useState("");
+  const [errorBanner, setErrorBanner] = useState("");
+  const [busyAction, setBusyAction] = useState("Loading Teamwork Graph Course Evidence Cockpit...");
 
-  const loadOverview = async () => {
-    const data = await invoke("getCourseOverview", {});
-    setOverview(data);
+  const runAction = async (label, fn) => {
+    setErrorBanner("");
+    setBusyAction(label);
+    try {
+      return await fn();
+    } catch (err) {
+      setErrorBanner(String(err?.message || err));
+      return null;
+    } finally {
+      setBusyAction("");
+    }
   };
+
+  const loadOverview = () =>
+    runAction("Loading Teamwork Graph Course Evidence Cockpit...", async () => {
+      const data = await invoke("getCourseOverview", {});
+      setOverview(data);
+    });
 
   useEffect(() => {
     loadOverview();
   }, []);
 
-  const handleDraft = async (teamId) => {
-    const draft = await invoke("draftFeedback", { teamId });
-    setActiveDraft(draft);
-  };
+  const handleDraft = (teamId) =>
+    runAction("Drafting rubric feedback (Forge LLM)...", async () => {
+      const draft = await invoke("draftFeedback", { teamId });
+      if (draft) {
+        setActiveDraft(draft);
+      }
+    });
 
-  const handleInspectStudent = async (studentId) => {
-    const data = await invoke("getStudentEvidence", { studentId });
-    setStudentView(data);
-  };
+  const handleInspectStudent = (studentId) =>
+    runAction("Loading student self-inspection view...", async () => {
+      const data = await invoke("getStudentEvidence", { studentId });
+      if (data) {
+        setStudentView(data);
+      }
+    });
 
   const handleApprove = async () => {
     if (!activeDraft) return;
-    await invoke("approveFeedback", {
-      teamId: activeDraft.teamId,
-      approvedFeedbackMarkdown: activeDraft.draftMarkdown
+    await runAction("Publishing lecturer-approved milestone feedback...", async () => {
+      await invoke("approveFeedback", {
+        teamId: activeDraft.teamId,
+        approvedFeedbackMarkdown: activeDraft.draftMarkdown
+      });
+      setBanner(`Published lecturer-approved rubric feedback for ${activeDraft.teamName}.`);
+      setActiveDraft(null);
+      const data = await invoke("getCourseOverview", {});
+      setOverview(data);
     });
-    setBanner(`Published lecturer-approved rubric feedback for ${activeDraft.teamName}.`);
-    setActiveDraft(null);
-    await loadOverview();
   };
 
   if (!overview) {
-    return <Text>Loading Teamwork Graph Course Evidence Cockpit...</Text>;
+    return (
+      <Stack space="space.150">
+        {errorBanner ? (
+          <SectionMessage appearance="error" title="Could not load Course Evidence Cockpit">
+            <Text>{errorBanner}</Text>
+            <Button appearance="primary" onClick={loadOverview}>
+              Retry
+            </Button>
+          </SectionMessage>
+        ) : (
+          <Stack space="space.100">
+            <Text>{busyAction || "Loading Teamwork Graph Course Evidence Cockpit..."}</Text>
+            <ProgressBar isIndeterminate />
+          </Stack>
+        )}
+      </Stack>
+    );
   }
 
   return (
     <Stack space="space.300">
       <Stack space="space.100">
-        <Heading size="large">{overview.courseTitle}</Heading>
+        <Inline space="space.100" alignBlock="center" spread="space-between">
+          <Heading size="large">{overview.courseTitle}</Heading>
+          <Lozenge appearance={overview.twgConnected ? "success" : "inprogress"}>
+            {overview.twgConnected ? "TWG Live" : "TWG Mode"}: {overview.twgMode || "seeded-capstone-course"}
+          </Lozenge>
+        </Inline>
         <Text>
           Cross-product Teamwork Graph evidence across Jira work items, linked Pull Requests, and
           Confluence specifications. Students see the exact same evidence view; no grades are
           assigned automatically.
         </Text>
       </Stack>
+
+      {busyAction && (
+        <Stack space="space.050">
+          <Text>{busyAction}</Text>
+          <ProgressBar isIndeterminate />
+        </Stack>
+      )}
+
+      {errorBanner && (
+        <SectionMessage appearance="error" title="Action Error">
+          <Text>{errorBanner}</Text>
+        </SectionMessage>
+      )}
 
       {banner && (
         <SectionMessage appearance="confirmation" title="Lecturer Feedback Published">
@@ -98,7 +158,11 @@ const CourseCockpitApp = () => {
                     <Text>{m.displayName}</Text>
                     <Lozenge appearance="new">{m.role}</Lozenge>
                     <Badge>{m.evidenceSharePct}% share</Badge>
-                    <Button appearance="subtle" onClick={() => handleInspectStudent(m.studentId)}>
+                    <Button
+                      appearance="subtle"
+                      isDisabled={Boolean(busyAction)}
+                      onClick={() => handleInspectStudent(m.studentId)}
+                    >
                       Student Self-Inspection View
                     </Button>
                   </Inline>
@@ -120,7 +184,11 @@ const CourseCockpitApp = () => {
             )}
 
             <ButtonGroup>
-              <Button appearance="primary" onClick={() => handleDraft(team.teamId)}>
+              <Button
+                appearance="primary"
+                isDisabled={Boolean(busyAction)}
+                onClick={() => handleDraft(team.teamId)}
+              >
                 Draft Milestone Rubric Feedback (Forge LLM)
               </Button>
             </ButtonGroup>
@@ -153,10 +221,15 @@ const CourseCockpitApp = () => {
 
       {activeDraft && (
         <Box>
-          <Heading size="medium">Review & Approve Draft Feedback ({activeDraft.teamName})</Heading>
+          <Inline space="space.100" alignBlock="center" spread="space-between">
+            <Heading size="medium">Review & Approve Draft Feedback ({activeDraft.teamName})</Heading>
+            <Lozenge appearance={String(activeDraft.engineUsed || "").startsWith("forge-llm") ? "success" : "new"}>
+              Engine: {activeDraft.engineUsed || "deterministic-rubric-synthesizer"}
+            </Lozenge>
+          </Inline>
           <CodeBlock language="markdown" text={activeDraft.draftMarkdown} />
           <ButtonGroup>
-            <Button appearance="primary" onClick={handleApprove}>
+            <Button appearance="primary" isDisabled={Boolean(busyAction)} onClick={handleApprove}>
               Approve & Publish to Milestone Record
             </Button>
             <Button appearance="subtle" onClick={() => setActiveDraft(null)}>
