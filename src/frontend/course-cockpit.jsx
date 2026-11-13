@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ForgeReconciler, {
-  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -102,7 +101,7 @@ const CourseCockpitApp = () => {
       <Stack space="space.100">
         <Inline space="space.100" rowSpace="space.075" alignBlock="center" spread="space-between" shouldWrap>
           <Heading size="large">{overview.courseTitle}</Heading>
-          <Lozenge appearance={overview.twgConnected ? "success" : "inprogress"}>
+          <Lozenge appearance={overview.twgConnected ? "success" : "inprogress"} maxWidth={360}>
             {overview.twgConnected ? "TWG Live" : "TWG Mode"}: {overview.twgMode || "seeded-capstone-course"}
           </Lozenge>
         </Inline>
@@ -139,7 +138,7 @@ const CourseCockpitApp = () => {
               <Heading size="medium">
                 {team.teamName} — {team.milestone}
               </Heading>
-              <Lozenge appearance={team.warnings.length > 0 ? "moved" : "success"}>
+              <Lozenge appearance={team.warnings.length > 0 ? "moved" : "success"} maxWidth={260}>
                 {team.warnings.length} Early Warning(s)
               </Lozenge>
             </Inline>
@@ -156,8 +155,8 @@ const CourseCockpitApp = () => {
                   <Inline space="space.100" rowSpace="space.075" alignBlock="center" shouldWrap>
                     <Code>{m.studentId}</Code>
                     <Text>{m.displayName}</Text>
-                    <Lozenge appearance="new">{m.role}</Lozenge>
-                    <Badge>{m.evidenceSharePct}% share</Badge>
+                    <Lozenge appearance="new" maxWidth={280}>{m.role}</Lozenge>
+                    <Lozenge appearance="default" maxWidth={200}>{`${m.evidenceSharePct}% share`}</Lozenge>
                     <Button
                       appearance="subtle"
                       isDisabled={Boolean(busyAction)}
@@ -223,7 +222,7 @@ const CourseCockpitApp = () => {
         <Box>
           <Inline space="space.100" rowSpace="space.075" alignBlock="center" spread="space-between" shouldWrap>
             <Heading size="medium">Review & Approve Draft Feedback ({activeDraft.teamName})</Heading>
-            <Lozenge appearance={String(activeDraft.engineUsed || "").startsWith("forge-llm") ? "success" : "new"}>
+            <Lozenge appearance={String(activeDraft.engineUsed || "").startsWith("forge-llm") ? "success" : "new"} maxWidth={380}>
               Engine: {activeDraft.engineUsed || "deterministic-rubric-synthesizer"}
             </Lozenge>
           </Inline>
