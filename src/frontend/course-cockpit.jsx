@@ -100,7 +100,7 @@ const CourseCockpitApp = () => {
   return (
     <Stack space="space.300">
       <Stack space="space.100">
-        <Inline space="space.100" alignBlock="center" spread="space-between">
+        <Inline space="space.100" rowSpace="space.075" alignBlock="center" spread="space-between" shouldWrap>
           <Heading size="large">{overview.courseTitle}</Heading>
           <Lozenge appearance={overview.twgConnected ? "success" : "inprogress"}>
             {overview.twgConnected ? "TWG Live" : "TWG Mode"}: {overview.twgMode || "seeded-capstone-course"}
@@ -135,7 +135,7 @@ const CourseCockpitApp = () => {
       {(overview.teams || []).map((team) => (
         <Box key={team.teamId}>
           <Stack space="space.150">
-            <Inline space="space.100" alignBlock="center" spread="space-between">
+            <Inline space="space.100" rowSpace="space.075" alignBlock="center" spread="space-between" shouldWrap>
               <Heading size="medium">
                 {team.teamName} — {team.milestone}
               </Heading>
@@ -153,7 +153,7 @@ const CourseCockpitApp = () => {
             <Stack space="space.100">
               {(team.memberBreakdown || []).map((m) => (
                 <Stack key={m.studentId} space="space.025">
-                  <Inline space="space.100" alignBlock="center">
+                  <Inline space="space.100" rowSpace="space.075" alignBlock="center" shouldWrap>
                     <Code>{m.studentId}</Code>
                     <Text>{m.displayName}</Text>
                     <Lozenge appearance="new">{m.role}</Lozenge>
@@ -221,13 +221,13 @@ const CourseCockpitApp = () => {
 
       {activeDraft && (
         <Box>
-          <Inline space="space.100" alignBlock="center" spread="space-between">
+          <Inline space="space.100" rowSpace="space.075" alignBlock="center" spread="space-between" shouldWrap>
             <Heading size="medium">Review & Approve Draft Feedback ({activeDraft.teamName})</Heading>
             <Lozenge appearance={String(activeDraft.engineUsed || "").startsWith("forge-llm") ? "success" : "new"}>
               Engine: {activeDraft.engineUsed || "deterministic-rubric-synthesizer"}
             </Lozenge>
           </Inline>
-          <CodeBlock language="markdown" text={activeDraft.draftMarkdown} />
+          <CodeBlock language="markdown" text={activeDraft.draftMarkdown} shouldWrapLongLines />
           <ButtonGroup>
             <Button appearance="primary" isDisabled={Boolean(busyAction)} onClick={handleApprove}>
               Approve & Publish to Milestone Record

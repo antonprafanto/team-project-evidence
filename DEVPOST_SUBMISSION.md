@@ -53,3 +53,38 @@ As a university lecturer supervising multi-team Software Engineering capstone co
   - Open **Rovo Chat (`SE Course Teaching Assistant`)** powered by `course-evidence-rubric` (`SKILL.md`) and ask: *"Which student teams have early-warning imbalance or inactivity this week?"*
 - **2:25–2:55 — Teamwork Graph Schema & Runs-on-Atlassian Architecture:**
   - Show `src/twgClient.js` (`atlassianTeamMembers`, `atlassianUserAssignedJiraWorkItems`, `atlassianUserPullRequests`, `confluencePageContributors`) and `manifest.yml` (`Eligible for the Runs on Atlassian program` — zero external egress keeps student records 100% inside Atlassian Cloud).
+
+
+---
+
+## Devpost Copy-Paste Form Fields
+
+### Built With
+`atlassian-forge`, `jira`, `confluence`, `atlassian-teamwork-graph`, `rovo`, `atlassian-forge-llm`, `react`, `node.js`, `javascript`
+
+### Challenges We Ran Into
+- Synthesizing cross-product capstone evidence (Jira issues done, PRs merged, PR reviews given, Confluence page edits) into clear, non-punitive coaching signals while maintaining fallback behavior (`seeded-capstone-course`) when Teamwork Graph data is sparse on fresh demo sites.
+- Designing strict lecturer-in-the-loop and student transparency guardrails so AI drafts rubric feedback (`@forge/llm` with deterministic fallback) only as an editable draft requiring explicit instructor approval before publishing.
+- Keeping responsive UI Kit header bars, student badges, and draft feedback blocks cleanly wrapped across both Jira Project Pages and Confluence Global Pages.
+
+### Accomplishments That We're Proud Of
+- Built a unified Jira (`jira:projectPage`) + Confluence (`confluence:globalPage`) Capstone & Team Project Evidence Cockpit backed by Teamwork Graph signals, `@forge/kvs`, `@forge/llm`, `scheduledTrigger`, `rovo:skill`, and `rovo:agent`.
+- Implemented **Transparent Student Self-Inspection View** alongside **Early Warning** detection and **Review & Approve Draft Feedback** workflows—verified via automated tests (`3/3` passing in `node --test`) and live Atlassian Cloud inspection.
+- Maintained zero external egress (`Runs on Atlassian` eligible) so student project artifacts never leave the institution's Atlassian Cloud site.
+
+### What We Learned
+- Fair team assessment in Higher Ed engineering courses requires visibility into *how* students collaborate across Jira, code reviews, and Confluence docs—plus giving students transparent access to the exact evidence signals instructors see.
+- Framing AI as a coaching & rubric-drafting assistant rather than an automated grader aligns with academic governance while saving lecturers significant review time.
+
+### Testing Instructions for Judges
+1. Install the app on your Jira / Confluence Cloud test site using the Installation Link provided on this Devpost submission (or deploy via `forge deploy` and `forge install`).
+2. In Jira, open any project and navigate to **Team Project Evidence Cockpit** in the project sidebar (or open **Team Project Evidence Cockpit** under Confluence Apps).
+3. Inspect the course header (`TWG Mode`), per-team **Early Warning(s)** banners, and per-member cross-product contribution breakdown (`Jira Done`, `PRs Merged`, `PR Reviews`, `Confluence Edits`).
+4. Click **Student Self-Inspection View** on any team member to verify the pedagogical transparency panel (`Weekly Active Cadence`), then click **Draft Milestone Rubric Feedback (Forge LLM)** and review the human-in-the-loop approval flow before publishing.
+
+### Project Links & Distribution Checklist (`antonprafanto`)
+- **GitHub Repository URL *(push pending)*:** `https://github.com/antonprafanto/team-project-evidence`
+- **Privacy Policy URL *(live once repo is pushed)*:** `https://github.com/antonprafanto/team-project-evidence/blob/main/PRIVACY.md`
+- **Support Contact Email:** `anton.prafanto@gmail.com`
+- **Atlassian Forge App ID:** `50f92c1f-44d9-405c-ac90-148887e3ac53`
+- **Installation Link:** Push `PRIVACY.md` to GitHub, switch Developer Console Distribution to **Sharing with anyone**, and copy the public install link here before final Devpost submission.
